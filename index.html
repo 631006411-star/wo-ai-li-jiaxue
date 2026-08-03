@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我爱李嘉雪</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 25%, #fbc2eb 50%, #a18cd1 75%, #fbc2eb 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* 满屏铺满文字背景 */
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-auto-rows: 120px;
+    align-items: center;
+    justify-items: center;
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .bg-grid span {
+    font-size: 44px;
+    font-weight: 900;
+    color: #fff;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .main-text {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .main-text h1 {
+    font-size: clamp(64px, 14vw, 180px);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 6px 30px rgba(214, 51, 132, 0.45),
+                 0 0 60px rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.06em;
+    animation: heartbeat 1.6s ease-in-out infinite;
+    user-select: none;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    10% { transform: scale(1.04); }
+    20% { transform: scale(0.98); }
+    30% { transform: scale(1.05); }
+    45% { transform: scale(1); }
+  }
+
+  /* 飘落爱心 */
+  .hearts {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .heart {
+    position: absolute;
+    top: -10vh;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 26px;
+    animation: fall linear infinite;
+    user-select: none;
+  }
+  @keyframes fall {
+    to { transform: translateY(115vh) rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+  <div class="bg-grid" id="bgGrid"></div>
+  <div class="main-text">
+    <h1>我爱李嘉雪</h1>
+  </div>
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    // 满屏铺满 "我爱李嘉雪"
+    const bgGrid = document.getElementById('bgGrid');
+    const cols = Math.ceil(window.innerWidth / 220);
+    const rows = Math.ceil(window.innerHeight / 120);
+    for (let i = 0; i < cols * rows; i++) {
+      const s = document.createElement('span');
+      s.textContent = '我爱李嘉雪';
+      bgGrid.appendChild(s);
+    }
+
+    // 飘落的爱心
+    const hearts = document.getElementById('hearts');
+    const emojis = ['❤', '💗', '❤️', '💕', '💖', '💓', '💘', '💝'];
+    const count = Math.min(40, Math.floor(window.innerWidth / 40));
+    for (let i = 0; i < count; i++) {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.fontSize = (14 + Math.random() * 28) + 'px';
+      h.style.animationDuration = (5 + Math.random() * 7) + 's';
+      h.style.animationDelay = (-Math.random() * 10) + 's';
+      h.style.opacity = 0.5 + Math.random() * 0.5;
+      hearts.appendChild(h);
+    }
+  </script>
+</body>
+</html>
